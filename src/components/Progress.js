@@ -12,15 +12,21 @@ class Progress extends Component{
 		super(props);
 		
 	}
+	getDefaultProps(){
+		return {
+			barColor:'#2f9842'
+		}
+	}
 	changeProgress(e){
 		let progressBar=this.refs.progressBar;
 		
 		let progress=(e.clientX-progressBar.getBoundingClientRect().left)/progressBar.clientWidth;
+		this.props.onprogressChangge&&this.props.onprogressChangge(progress)
 		
 	}
 	render() {
     return (<div className="components-progress" onClick={this.changeProgress.bind(this)} ref="progressBar">
-    <div className="progress" style={{width:`${this.props.progress}`}} ></div>
+    <div className="progress" style={{width:`${this.props.progress}%`,background:this.props.barColor}}></div>
     {this.props.progress}s</div>)
   }
 }

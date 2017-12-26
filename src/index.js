@@ -7,6 +7,7 @@ import { App } from './components/App.js';
 import { Home } from './components/Home.js'; 
 import { Detail } from './components/Detail.js'; 
 import { store } from './stores/store.js';
+
 let appElement = document.getElementById('app');
 const history = syncHistoryWithStore(browserHistory, store)
 
@@ -16,6 +17,7 @@ render((
         <Route path='/' component={App}>
           	<IndexRoute component={Home}/>
             <Route path="home" component={Home}/>
+           
             <Route path="detail" component={Detail}/>
         </Route>
     </Router>

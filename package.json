@@ -79,6 +79,7 @@
     "antd-mobile": "^1.6.3",
     "bootstrap": "^3.3.7",
     "core-js": "^2.0.0",
+    "pubsub-js":"^1.5.4",
     "jquery": "^3.2.1",
     "normalize.css": "^4.0.0",
     "react": "^15.0.0",

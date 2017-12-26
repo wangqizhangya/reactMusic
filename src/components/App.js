@@ -1,50 +1,47 @@
 
 import React,{ Component } from 'react';
-import 'babel-polyfill';
-import { Commen } from './Counter.js'
-import { Testall } from './Test.js'
-import { Skipall } from './Skip.js'
-import { TemperatureContainer } from'./ParentAndChild'
-import { Progress } from './Progress.js'
+import { MUSIC_LIST } from './musicList.js'
+
 import '../assets/css/app.css'
+import { Header } from './Header.js'
+
+import Pubsub from 'pubsub-js'
 class App extends Component{
 	constructor(props){
 		super(props);
 		this.state={
-		   progress:'-'
+		   musicList:MUSIC_LIST
 		        
 	    };
+		
 	}
-	componentDidMount(){
-		$("#player").jPlayer({
-			ready:function(){
-				$(this).jPlayer('setMedia',{
-					mp3:'../assets/bootstrap/js/陈小春-独家记忆.mp3'
-				}).jPlayer('play');
-			},
-			supplied:'mp3',
-			vmode:window
-		})
-		$("#player").bind($.jPlayer.event.timeupdate,(e)=>{
+	componendDidUnMount(){
+		Pubsub.subscribe('DELETE_MUSIC',(msg,musicItem)=>{
+				alert('LLA')
 			this.setState({
-				progress:Math.round(e.jPlayer.status.currentTime)
+				musicList:this.state.musicList.filter(item=>{
+					return item!==musicItem
+				})
 			})
+		})
+		Pubsub.subscribe('PLAY_MUSIC',(msg,musicItem)=>{
+			
 		})
 	}
 	componendWillUnMount(){
-		$("#player").unbind($.jPlayer.event.timeupdate);
+		Pubsub.unsubscribe('DELETE_MUSIC')
+		Pubsub.unsubscribe('PLAY_MUSIC')
 	}
 	render() {
 	
-    return (
-    <div>
-    	<img className="musicIcon" src={require("../images/music.jpg")} />
-    	<span className="text">送给我爱的王齐</span>
-    	<div id="player"></div>
-    	<Progress progress={this.state.progress}></Progress>
-     	{this.props.children}
-    </div>
-   )
-  }
+	    return (
+		    <div>
+		    	<Header></Header>
+		    	
+		    		{React.cloneElement(this.props.children,this.state)}
+		    </div>
+	   	)
+  	}
 }
+
 export { App };
